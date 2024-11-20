@@ -29,7 +29,8 @@ services:
         max-size: 10m
         max-file: "3"
     volumes:
-      - "${PWD}/../contrib:/usr/local/airflow/dags" # TEMPORARY
+      - "${PWD}/../contrib/.kube/config:/usr/local/airflow/dags/.kube/config"
+      - "${PWD}/../dist/dags:/usr/local/airflow/dags"
       - "${PWD}/plugins:/usr/local/airflow/plugins"
       - "${PWD}/../requirements.txt:/usr/local/airflow/requirements/requirements.txt"
       - "${PWD}/startup_script:/usr/local/airflow/startup"
