@@ -13,8 +13,8 @@ echo 'airflow ALL=(ALL)NOPASSWD:ALL' | sudo EDITOR='tee -a' visudo
 
 dnf erase openssl-devel -y
 dnf install openssl openssl-devel libffi-devel sqlite-devel bzip2-devel wget tar xz -y
-# Install python optional standard libary module dependencies 
-dnf install ncurses-devel gdbm-devel readline-devel xz-libs xz-devel uuid-devel libuuid-devel -y 
+# Install python optional standard libary module dependencies
+dnf install ncurses-devel gdbm-devel readline-devel xz-libs xz-devel uuid-devel libuuid-devel -y
 dnf install glibc -y
 
 # install system dependency to enable the installation of most Airflow extras
@@ -35,8 +35,8 @@ dnf install -y dnf-plugins-core
 dnf builddep -y python3
 
 
-pushd /python_install/$python_file 
-./configure 
+pushd /python_install/$python_file
+./configure
 make install -j $(nproc) # use -j to set the cores for the build
 popd
 
@@ -53,13 +53,13 @@ sudo mkdir mariadb_rpm
 sudo chown airflow /mariadb_rpm
 
 if [[ $(uname -p) == "aarch64" ]]; then
-  wget https://mirror.mariadb.org/yum/11.1/fedora38-aarch64/rpms/MariaDB-common-11.1.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
-  wget https://mirror.mariadb.org/yum/11.1/fedora38-aarch64/rpms/MariaDB-shared-11.1.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
-  wget https://mirror.mariadb.org/yum/11.1/fedora38-aarch64/rpms/MariaDB-devel-11.1.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
+  wget https://mirror.mariadb.org/yum/11.4/fedora38-aarch64/rpms/MariaDB-common-11.4.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
+  wget https://mirror.mariadb.org/yum/11.4/fedora38-aarch64/rpms/MariaDB-shared-11.4.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
+  wget https://mirror.mariadb.org/yum/11.4/fedora38-aarch64/rpms/MariaDB-devel-11.4.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
 else
-  wget https://mirror.mariadb.org/yum/11.1/fedora38-amd64/rpms/MariaDB-common-11.1.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
-  wget https://mirror.mariadb.org/yum/11.1/fedora38-amd64/rpms/MariaDB-shared-11.1.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
-  wget https://mirror.mariadb.org/yum/11.1/fedora38-amd64/rpms/MariaDB-devel-11.1.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
+  wget https://mirror.mariadb.org/yum/11.4/fedora38-amd64/rpms/MariaDB-common-11.4.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
+  wget https://mirror.mariadb.org/yum/11.4/fedora38-amd64/rpms/MariaDB-shared-11.4.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
+  wget https://mirror.mariadb.org/yum/11.4/fedora38-amd64/rpms/MariaDB-devel-11.4.2-1.fc38.$(uname -p).rpm -P /mariadb_rpm
 fi
 
 # install mariadb_devel and its dependencies
@@ -67,12 +67,12 @@ sudo rpm -ivh /mariadb_rpm/*
 
 sudo -u airflow pip3 install $PIP_OPTION --no-use-pep517 --constraint /constraints.txt poetry
 sudo -u airflow pip3 install $PIP_OPTION --constraint /constraints.txt cached-property
-sudo -u airflow pip3 install $PIP_OPTION --constraint /constraints.txt wheel 
+sudo -u airflow pip3 install $PIP_OPTION --constraint /constraints.txt wheel
 sudo -u airflow pip3 install $PIP_OPTION --constraint /constraints.txt --use-deprecated legacy-resolver apache-airflow[celery,statsd"${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}"]=="${AIRFLOW_VERSION}"
 
 dnf install -y libxml2-devel libxslt-devel
 # install celery[sqs] and its dependencies
-dnf install -y libcurl-devel 
+dnf install -y libcurl-devel
 # see https://stackoverflow.com/questions/49200056/pycurl-import-error-ssl-backend-mismatch
 export PYCURL_SSL_LIBRARY=openssl11
 sudo -u airflow pip3 install $PIP_OPTION --compile pycurl
