@@ -30,6 +30,7 @@ services:
         max-file: "3"
     volumes:
       - "${PWD}/../contrib/.kube/config:/usr/local/airflow/dags/.kube/config"
+      - "${PWD}/../contrib/airflow/airflow_local_settings.py:/usr/local/airflow/airflow_local_settings.py"
       - "${PWD}/../dist/dags:/usr/local/airflow/dags"
       - "${PWD}/plugins:/usr/local/airflow/plugins"
       - "${PWD}/../requirements.txt:/usr/local/airflow/requirements/requirements.txt"
