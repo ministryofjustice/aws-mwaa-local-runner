@@ -31,6 +31,8 @@ services:
     volumes:
       - "${PWD}/../contrib/.kube/config:/usr/local/airflow/dags/.kube/config"
       - "${PWD}/../contrib/airflow/airflow_local_settings.py:/usr/local/airflow/airflow_local_settings.py"
+      - "${PWD}/../contrib/airflow/dags/.airflowignore:/usr/local/airflow/dags/.airflowignore"
+      - "${PWD}/../contrib/airflow/dags/analytical_platform:/usr/local/airflow/dags/analytical_platform"
       - "${PWD}/../contrib/plugins:/usr/local/airflow/plugins"
       - "${PWD}/../contrib/dag_factory/dag_factory.py:/usr/local/airflow/dags/dag_factory.py"
       - "${PWD}/../dist/dags/development:/usr/local/airflow/dags/development"
