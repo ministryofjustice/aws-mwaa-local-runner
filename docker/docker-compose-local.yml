@@ -21,14 +21,22 @@ services:
     environment:
       - LOAD_EX=n
       - EXECUTOR=Local
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
     logging:
       options:
         max-size: 10m
         max-file: "3"
     volumes:
-      - "${PWD}/dags:/usr/local/airflow/dags"
-      - "${PWD}/plugins:/usr/local/airflow/plugins"
-      - "${PWD}/requirements:/usr/local/airflow/requirements"
+      - "${PWD}/../contrib/.kube/config:/usr/local/airflow/dags/.kube/config"
+      - "${PWD}/../contrib/airflow/airflow_local_settings.py:/usr/local/airflow/airflow_local_settings.py"
+      - "${PWD}/../contrib/airflow/dags/.airflowignore:/usr/local/airflow/dags/.airflowignore"
+      - "${PWD}/../contrib/airflow/dags/analytical_platform:/usr/local/airflow/dags/analytical_platform"
+      - "${PWD}/../contrib/plugins:/usr/local/airflow/plugins"
+      - "${PWD}/../contrib/dag_factory/dag_factory.py:/usr/local/airflow/dags/dag_factory.py"
+      - "${PWD}/../dist/dags/development:/usr/local/airflow/dags/development"
+      - "${PWD}/../requirements.txt:/usr/local/airflow/requirements/requirements.txt"
       - "${PWD}/startup_script:/usr/local/airflow/startup"
     ports:
       - "8080:8080"

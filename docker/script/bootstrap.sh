@@ -13,8 +13,8 @@ echo 'airflow ALL=(ALL)NOPASSWD:ALL' | sudo EDITOR='tee -a' visudo
 
 dnf erase openssl-devel -y
 dnf install openssl openssl-devel libffi-devel sqlite-devel bzip2-devel wget tar xz -y
-# Install python optional standard libary module dependencies 
-dnf install ncurses-devel gdbm-devel readline-devel xz-libs xz-devel uuid-devel libuuid-devel -y 
+# Install python optional standard libary module dependencies
+dnf install ncurses-devel gdbm-devel readline-devel xz-libs xz-devel uuid-devel libuuid-devel -y
 dnf install glibc -y
 
 # install system dependency to enable the installation of most Airflow extras
@@ -35,8 +35,8 @@ dnf install -y dnf-plugins-core
 dnf builddep -y python3
 
 
-pushd /python_install/$python_file 
-./configure 
+pushd /python_install/$python_file
+./configure
 make install -j $(nproc) # use -j to set the cores for the build
 popd
 
@@ -67,12 +67,12 @@ sudo rpm -ivh /mariadb_rpm/*
 
 sudo -u airflow pip3 install $PIP_OPTION --no-use-pep517 --constraint /constraints.txt poetry
 sudo -u airflow pip3 install $PIP_OPTION --constraint /constraints.txt cached-property
-sudo -u airflow pip3 install $PIP_OPTION --constraint /constraints.txt wheel 
+sudo -u airflow pip3 install $PIP_OPTION --constraint /constraints.txt wheel
 sudo -u airflow pip3 install $PIP_OPTION --constraint /constraints.txt --use-deprecated legacy-resolver apache-airflow[celery,statsd"${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}"]=="${AIRFLOW_VERSION}"
 
 dnf install -y libxml2-devel libxslt-devel
 # install celery[sqs] and its dependencies
-dnf install -y libcurl-devel 
+dnf install -y libcurl-devel
 # see https://stackoverflow.com/questions/49200056/pycurl-import-error-ssl-backend-mismatch
 export PYCURL_SSL_LIBRARY=openssl11
 sudo -u airflow pip3 install $PIP_OPTION --compile pycurl
